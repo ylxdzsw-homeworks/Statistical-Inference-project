@@ -1,0 +1,48 @@
+---
+title: "Statistical Inference Cource Project Part2"
+author: "Zhang Shiwei"
+date: "Saturday, November 22, 2014"
+output: pdf_document
+---
+
+##Initializing
+```{r}
+library(knitr)
+library(ggplot2)
+set.seed(123)
+lambda <- 0.2
+data <- ToothGrowth
+```
+
+##Looking at the data
+The structure and brief summary of the data is as following:
+```{r}
+str(data)
+summary(data)
+```
+
+This is the polt showing how the len distribute with supp:
+```{r}
+qplot(data=data,x=len,col=supp,main="Tooth Growth with supp")
+```
+
+And this is the poly showing how the len distribute with supp:
+```{r}
+qplot(data=data,x=len,col=factor(dose),main="Tooth Growth with dose")
+```
+
+##Comparation Between Different supp
+We assume that the true variance between two supp is not equaled.
+```{r}
+spliteddata <- split(data,data$supp)
+t.test(spliteddata$OJ$len,spliteddata$VC$len,paired=F,var.equal=F,conf.level=0.975)
+```
+
+##Comparation Between Different dose
+We assume that the true variance between tow dose is not equaled.
+```{r}
+spliteddata <- split(data,data$dose)
+t.test(spliteddata$'0.5'$len,spliteddata$'1'$len,paired=F,var.equal=F,conf.level=0.975)
+t.test(spliteddata$'1'$len,spliteddata$'2'$len,paired=F,var.equal=F,conf.level=0.975)
+t.test(spliteddata$'2'$len,spliteddata$'0.5'$len,paired=F,var.equal=F,conf.level=0.975)
+```
